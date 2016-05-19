@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intertec Javascript Test - Walter R. Chacon Solis</title>
+
+    <link href="./app/style.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <div id="container">
+
+      <div class="content">
+        <h1>User List</h1>
+
+        <div>
+          <input type="text" value="" /> <button type="button">Add</button>
+        </div>
+
+        <ul id="user-list">
+          <li>
+            <span>User Name #1</span> <a href="/delete?id=1" data-action="delete">Delete</a> <a href="/details.html?id=1" data-action="details">Details</a>
+          </li>
+
+          <li>
+            <span>User Name #2</span> <a href="/delete?id=2" data-action="delete">Delete</a> <a href="/details.html?id=2" data-action="details">Details</a>
+          </li>
+
+          <li>
+            <span>User Name #3</span> <a href="/delete?id=3" data-action="delete">Delete</a> <a href="/details.html?id=3" data-action="details">Details</a>
+          </li>
+
+          <li>
+            <span>User Name #4</span> <a href="/delete?id=4" data-action="delete">Delete</a> <a href="/details.html?id=4" data-action="details">Details</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <script src="./app/components/utils.js"></script>
+    <script src="./app/index.js"></script>
+    <script src="./app/components/detailsController.js"></script>
+    <script src="./app/components/controller.js"></script>
+  </body>
+</html>
