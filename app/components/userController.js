@@ -33,13 +33,44 @@
 
     wrapper.innerHTML = "";
 
-    console.log('rendering users ==> ', users);
     users.forEach(function (user) {
       var el = document.createElement('li');
       el.innerHTML = "<span>"+ user.name + " - ( "+ ((user.posts && user.posts.length) || 0) +" posts)" +"</span> <a href=\"#/user/delete/"+user.id+"\" data-action>Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action>Details</a>";
 
       wrapper.appendChild(el);
     });
+  }
+
+  /**
+   *
+   */
+
+  function renderDetail (userId) {
+    var user = store.findById(userId);
+    var wrapper = document.querySelector('#container .inner-details');
+
+    if (!wrapper) return;
+
+    if (!user) {
+      return wrapper.innerHTML = "<h4> User not available </h4>";
+    }
+    wrapper.innerHTML = "";
+
+    var el = document.createElement('div');
+    var html = "<div class='name'> "+ user.name + " ("+ user.username +")" +" </div>";
+    var posts = user.posts;
+
+    if (posts) {
+      html += "<ul>";
+      posts.forEach(function (post) {
+        html += "<li> "+post.id+ ". "+ post.title +"</li>";
+      });
+      html += "</ul>";
+    }
+
+    el.innerHTML = html;
+
+    wrapper.appendChild(el);
   }
 
   /**
@@ -60,7 +91,7 @@
    * Show User
    */
 
-  function showUser(params, url) {
+  function showDetail(params, url) {
     var id = params[0] || 0;
     var template = "/app/templates/details.html";
 
@@ -70,6 +101,8 @@
       url: template,
       container: '#container',
       selector: '.content'
+    }, function () {
+      renderDetail(id);
     });
 
     if (url) {
@@ -87,8 +120,7 @@
    */
 
   function deleteUser (params) {
-    var id = parseInt(params[0], 10);
-
+    var id = params[0];
     store.delete(id);
   }
 
@@ -133,9 +165,9 @@
 
     switch (action) {
 
-      // showUser
+      // showDetail
       case 'details':
-        showUser(op.params, op.url);
+        showDetail(op.params, op.url);
       break;
 
       // delete

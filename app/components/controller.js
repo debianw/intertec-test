@@ -8,13 +8,13 @@
   var container         = document.querySelector('#container');
   var renderPage        = it.utils.renderPage;
   var queryVar          = it.utils.queryVar;
-  var detailsController = it.controller.details;
+  var homeController    = it.controller.home;
   var userController    = it.controller.user;
 
   /**
    * Controller
    */
-  
+
   container.addEventListener('click', function (e) {
     var target = e.target;
 
@@ -32,6 +32,11 @@
         // User
         case "user":
           userController.do(op);
+        break;
+
+        // home
+        case "home":
+          homeController.do(op);
         break;
 
         default:

@@ -91,8 +91,10 @@
      */
 
     this.findById = function (id) {
+      id = parseInt(id, 10);
+
       var index = users.findIndex(function (user) {
-        return user === id;
+        return user.id === id;
       });
 
       return users[index];
@@ -103,6 +105,8 @@
      */
 
     this.delete = function (id) {
+      id = parseInt(id, 10);
+
       var index = users.findIndex(function (user) {
         return user.id === id;
       });
@@ -122,7 +126,7 @@
     this.add = function (user) {
       if (!user) return;
 
-      user.id = users.length+1;
+      user.id = users.length+2000;
       users.push(user);
 
       // notify observers of the change

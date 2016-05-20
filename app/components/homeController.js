@@ -42,6 +42,12 @@
 
   function _do (op) {
     var action = op.action;
+
+    switch (action) {
+      default:
+        history.back();
+      break;
+    }
   }
 
   // Expose API
