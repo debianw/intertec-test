@@ -18,6 +18,8 @@
     update: renderList
   });
 
+  window.store = store;
+
   /**
    * Call on Store change
    */
@@ -34,7 +36,7 @@
     console.log('rendering users ==> ', users);
     users.forEach(function (user) {
       var el = document.createElement('li');
-      el.innerHTML = "<span>"+ user.name +"</span> <a href=\"#/user/delete/"+user.id+"\" data-action>Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action>Details</a>";
+      el.innerHTML = "<span>"+ user.name + " - ( 5 posts)" +"</span> <a href=\"#/user/delete/"+user.id+"\" data-action>Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action>Details</a>";
 
       wrapper.appendChild(el);
     });
@@ -85,9 +87,9 @@
    */
 
   function deleteUser (params) {
-    var id = params[0];
+    var id = parseInt(params[0], 10);
 
-    console.log('delete user ==> ', id);
+    store.delete(id);
   }
 
   /**
@@ -95,7 +97,16 @@
    */
 
   function addUser () {
-    console.log('add user ==> ', document.querySelector('input[name=name]').value);
+    var input = document.querySelector('input[name=name]');
+    var name  = input.value;
+
+    if (!name) return;
+
+    store.add({
+      name: document.querySelector('input[name=name]').value
+    });
+
+    input.value = "";
   }
 
   /**

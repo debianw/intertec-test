@@ -30,6 +30,58 @@
    *
    */
 
+  function requestAjax (options, callback) {
+    var request = new XMLHttpRequest();
+
+    callback = callback || noop;
+
+    if (!options) return;
+
+    var url = options.url;
+    var method = options.method || 'get';
+
+    request.onload = function () {
+      var status = this.status;
+
+      switch (status) {
+        //
+        case 200:
+          var data = JSON.parse(this.responseText);
+          callback(null, data);
+        break;
+
+        //
+        default:
+          var code = Math.floor(status / 100);
+          switch (code) {
+            case 4:
+              /* Client Error 4xx */
+              callback(new Error("Client Error"));
+              alert("Client Error");
+              break;
+            case 5:
+              /* Server Error 5xx */
+              callback(new Error("Server Error"));
+              alert("Server Error");
+              break;
+            default:
+              /* Unknown status */
+              callback(new Error("Unknow error"));
+              alert("Unknow error");
+            break;
+          }
+        break;
+      };
+    }
+
+    request.open(method, url, true);
+    request.send();
+  }
+
+  /**
+   *
+   */
+
   function renderPage(options, callback) {
     var request = new XMLHttpRequest();
 
@@ -89,7 +141,8 @@
   // Expose API
   global.it.utils = {
     renderPage: renderPage,
-    parseUrl: parseUrl
+    parseUrl: parseUrl,
+    requestAjax: requestAjax
   }
 
 })(window);

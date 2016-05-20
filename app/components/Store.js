@@ -5,9 +5,10 @@
 (function (global) {
 
   global.it = global.it || {};
-  var Observer = global.it.Observer;
 
-  var users = [];
+  var Observer    = global.it.Observer;
+  var requestAjax = it.utils.requestAjax;
+  var users       = [];
 
   /**
    *
@@ -18,41 +19,40 @@
 
     var observer = new Observer();
 
-    //
+    /**
+     *
+     */
+
     this.addObserver = function addObserver( newObserver ) {
       observer.observe( newObserver );
     };
 
-    //
+    /**
+     *
+     */
+
     this.removeObserver = function removeObserver( deleteObserver ) {
       observer.unobserve( deleteObserver );
     };
 
-    //
+    /**
+     *
+     */
+
     this.fetch = function fetch() {
 
-      users.push({
-        id: 1,
-        name: "User Name #1"
-      },
+      requestAjax({
+        url: "http://jsonplaceholder.typicode.com/users",
+        method: 'get'
+      }, function (err, data) {
+        if (err) return console.log("Error requesting users");
 
-      {
-        id: 2,
-        name: "User Name #2"
-      },
+        users = data || [];
 
-      {
-        id: 3,
-        name: "User Name #3"
-      },
-
-      {
-        id: 4,
-        name: "User Name #4"
+        // notify observers of the change
+        observer.notify( users );
       });
 
-      // notify observers of the change
-      observer.notify( users );
     };
 
     /**
@@ -79,6 +79,20 @@
       if (index === -1) return;
 
       users = users.slice(0, index).concat( users.slice(index+1) );
+
+      // notify observers of the change
+      observer.notify( users );
+    }
+
+    /**
+     *
+     */
+
+    this.add = function (user) {
+      if (!user) return;
+
+      user.id = users.length+1;
+      users.push(user);
 
       // notify observers of the change
       observer.notify( users );
