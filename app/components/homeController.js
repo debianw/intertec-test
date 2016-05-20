@@ -21,19 +21,23 @@
     var op = it.utils.parseUrl(hash);
 
     if (!op) {
-      history.pushState({
-        page: 'home',
-        template: '/app/templates/home.html'
-      }, 'Home', '#');
-
-      renderPage({
-        url: '/app/templates/home.html',
-        container: '#container',
-        selector: '.content'
-      }, function () {
-        userController.do({action: 'fetch'});
-      });
+      goHome();
     }
+  }
+
+  function goHome() {
+    history.pushState({
+      page: 'home',
+      template: '/app/templates/home.html'
+    }, 'Home', '#');
+
+    renderPage({
+      url: '/app/templates/home.html',
+      container: '#container',
+      selector: '.content'
+    }, function () {
+      userController.do({action: 'fetch'});
+    });
   }
 
   /**
@@ -45,7 +49,7 @@
 
     switch (action) {
       default:
-        history.back();
+        goHome();
       break;
     }
   }

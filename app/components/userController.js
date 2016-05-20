@@ -18,8 +18,6 @@
     update: renderList
   });
 
-  window.store = store;
-
   /**
    * Call on Store change
    */
@@ -165,6 +163,8 @@
 
     wrapper.innerHTML = "Resetting, please wait ...";
     fetched = false;
+
+    store.reset();
     fetch();
   }
 
@@ -201,6 +201,10 @@
 
       case 'reset':
         reset();
+      break;
+
+      case 'render-detail':
+        renderDetail(op.params[0]);
       break;
 
       default:

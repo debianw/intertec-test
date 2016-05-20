@@ -40,9 +40,27 @@
     /**
      *
      */
+     
+    this.reset = function () {
+      db.remove('tl-users');
+    }
+
+    /**
+     *
+     */
 
     this.fetch = function fetch() {
       var self = this;
+
+      users = db.get('tl-users');
+
+      // fetch from local cache
+      if (users) {
+        // notify observers of the change
+        observer.notify( users );
+
+        return;
+      }
 
       requestAjax({
         url: "http://jsonplaceholder.typicode.com/users",

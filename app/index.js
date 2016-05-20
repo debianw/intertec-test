@@ -7,7 +7,8 @@
 
   var renderPage      = global.it.utils.renderPage;
   var userController  = global.it.controller.user;
-  var noop = function () {};
+  var parseUrl        = global.it.utils.parseUrl;
+  var noop            = function () {};
 
   /**
    *
@@ -17,12 +18,22 @@
     var state = e.state;
     var callback;
 
+    console.log('state ==> ', state);
+
     if (state && state.template) {
 
       if ('home' === state.page) {
         callback = function () {
           userController.do({action: 'fetch'});
         };
+      }
+
+      if ('details' === state.page) {
+        callback = function () {
+          var op = parseUrl(window.location.hash);
+          op.action = "render-detail";
+          userController.do(op);
+        }
       }
 
       renderPage({
@@ -32,6 +43,7 @@
       }, callback);
 
     }
+
   });
 
 })(window);
