@@ -142,7 +142,7 @@
   }
 
   /**
-   *
+   * Fetch
    */
 
   function fetch () {
@@ -157,7 +157,16 @@
   }
 
   /**
-   *
+   * Reset
+   */
+
+  function reset () {
+    fetched = false;
+    fetch();
+  }
+
+  /**
+   * Actions handler
    */
 
   function _do (op) {
@@ -185,6 +194,10 @@
 
       case 'render-list':
         renderList();
+      break;
+
+      case 'reset':
+        reset();
       break;
 
       default:

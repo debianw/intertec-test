@@ -86,3 +86,17 @@ ul {
     text-align: center;
     font-weight: bold;
   }
+
+.inner-details {}
+  .inner-details .name {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .inner-details ul {
+    margin-left: 10%;
+  }
+
+  .inner-details ul li {
+    margin-bottom: 10px;
+  }
