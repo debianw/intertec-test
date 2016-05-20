@@ -2,21 +2,12 @@
  *
  */
 
-(function () {
+(function (global) {
   'use strict';
 
-  const renderPage   = it.utils.renderPage;
-  const queryVar     = it.utils.queryVar;
-
-  // init state
-  if ('/' === document.location.pathname) {
-    history.pushState({ page: 'home', url: '/home.html' }, 'Home', '/home.html');
-    renderPage({
-      url: '/home.html',
-      container: '#container',
-      selector: '.content'
-    });
-  }
+  var renderPage      = global.it.utils.renderPage;
+  var userController  = global.it.controller.user;
+  var noop = function () {};
 
   /**
    *
@@ -24,12 +15,23 @@
 
   window.addEventListener('popstate', function (e) {
     var state = e.state;
+    var callback;
 
-    if (state && state.url) renderPage({
-      url: state.url,
-      container: '#container',
-      selector: '.content'
-    });
+    if (state && state.template) {
+
+      if ('home' === state.page) {
+        callback = function () {
+          userController.do({action: 'fetch'});
+        };
+      }
+
+      renderPage({
+        url: state.template,
+        container: '#container',
+        selector: '.content'
+      }, callback);
+
+    }
   });
 
-})();
+})(window);

@@ -9,55 +9,36 @@
   var renderPage        = it.utils.renderPage;
   var queryVar          = it.utils.queryVar;
   var detailsController = it.controller.details;
-
-  if (/details/.test(document.location.pathname)) {
-    detailsController.load();
-  }
+  var userController    = it.controller.user;
 
   /**
    * Controller
    */
+  
   container.addEventListener('click', function (e) {
     var target = e.target;
-    var action;
 
     e.preventDefault();
 
     if (target !== e.currentTarget && target.hasAttribute('data-action')) {
 
-      action = target.getAttribute('data-action');
+      var href  = target.getAttribute('href');
+      var op    = it.utils.parseUrl(href);
 
-      switch (action) {
-        //
-        case "details":
-          var url = e.target.getAttribute('href');
-          var data = {
-            page: 'details',
-            url: url,
-            query: queryVar(url)
-          }
+      if (!op) return;
 
-          history.pushState(data, "Details Page", url);
+      switch (op.controller) {
 
-          renderPage({
-            url: url,
-            container: '#container',
-            selector: '.content'
-          });
-
-          detailsController.load();
+        // User
+        case "user":
+          userController.do(op);
         break;
 
-        //
-        case "delete":
-          var data = queryVar(e.target.getAttribute('href'));
-          console.log('delete value ==> ', data);
-        break;
-
-        //
         default:
         break;
+
       }
+
     }
 
     e.stopPropagation();

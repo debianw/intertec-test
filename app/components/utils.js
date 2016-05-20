@@ -4,20 +4,36 @@
   // Intertec namespace
   global.it = global.it || {};
 
+  var noop = function () {};
+
   /**
    *
    */
 
-  function getQueryVariable(str) {
-    return (str || document.location.search).replace(/(.*\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+  function parseUrl (url) {
+    if (!url) return;
+
+    var query = url.replace(/(.*\#\/)/, "");
+    var options = {};
+
+    var data = query.split('/');
+
+    options.controller  = data.slice(0,1)[0] || false;
+    options.action      = data.slice(1,2)[0] || false;
+    options.params      = data.slice(2) || false;
+    options.url         = url;
+
+    return options;
   }
 
   /**
    *
    */
 
-  function renderPage(options) {
+  function renderPage(options, callback) {
     var request = new XMLHttpRequest();
+
+    callback = callback || noop;
 
     if (!options) return;
     if (!options.container) return console.error("Please provide a container");
@@ -38,24 +54,29 @@
 
           container.innerHTML = "";
           container.appendChild( selector ? el.querySelector(selector) : el );
+
+          callback();
         break;
 
         //
         default:
           var code = Math.floor(status / 100);
           switch (code) {
-              case 4:
-                /* Client Error 4xx */
-                alert("Client Error");
-                break;
-              case 5:
-                /* Server Error 5xx */
-                alert("Server Error");
-                break;
-              default:
-                /* Unknown status */
-                alert("Unknow error");
+            case 4:
+              /* Client Error 4xx */
+              callback(new Error("Client Error"));
+              alert("Client Error");
               break;
+            case 5:
+              /* Server Error 5xx */
+              callback(new Error("Server Error"));
+              alert("Server Error");
+              break;
+            default:
+              /* Unknown status */
+              callback(new Error("Unknow error"));
+              alert("Unknow error");
+            break;
           }
         break;
       };
@@ -67,8 +88,8 @@
 
   // Expose API
   global.it.utils = {
-    queryVar: getQueryVariable,
-    renderPage: renderPage
+    renderPage: renderPage,
+    parseUrl: parseUrl
   }
 
 })(window);
