@@ -7,7 +7,8 @@
   global.it = global.it || {};
 
   var Observer    = global.it.Observer;
-  var requestAjax = it.utils.requestAjax;
+  var Db          = global.it.Db;
+  var requestAjax = global.it.utils.requestAjax;
   var users       = [];
 
   /**
@@ -18,6 +19,7 @@
     if ( !(this instanceof Store) ) return new Store();
 
     var observer = new Observer();
+    var db = new Db();
 
     /**
      *
@@ -50,6 +52,9 @@
 
         users = data || [];
 
+        // persist data
+        db.save('tl-users', users);
+
         _requestPosts.call(self);
 
         // notify observers of the change
@@ -81,6 +86,9 @@
           user.posts = filterPostByUser(data, user.id);
         });
 
+        // persist data
+        db.save('tl-users', users);
+
         // notify observers of the change
         observer.notify( users );
       });
@@ -92,6 +100,10 @@
 
     this.findById = function (id) {
       id = parseInt(id, 10);
+
+      if (users.length === 0) {
+        users = db.get('tl-users');
+      }
 
       var index = users.findIndex(function (user) {
         return user.id === id;
@@ -115,6 +127,9 @@
 
       users = users.slice(0, index).concat( users.slice(index+1) );
 
+      // persist data
+      db.save('tl-users', users);
+
       // notify observers of the change
       observer.notify( users );
     }
@@ -128,6 +143,9 @@
 
       user.id = users.length+2000;
       users.push(user);
+
+      // persist data
+      db.save('tl-users', users);
 
       // notify observers of the change
       observer.notify( users );
