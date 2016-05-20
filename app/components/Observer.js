@@ -11,7 +11,6 @@
   }
 
   Observer.prototype.observe = function observeObject( obj ) {
-    console.log( 'added new observer' );
     this._list.push( obj );
   };
 
@@ -19,7 +18,6 @@
     for( var i = 0, len = this._list.length; i < len; i++ ) {
       if( this._list[ i ] === obj ) {
         this._list.splice( i, 1 );
-        console.log( 'removed existing observer' );
         return true;
       }
     }

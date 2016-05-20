@@ -21,6 +21,10 @@ ul {
   list-style: none;
 }
 
+.controls {
+  margin: 10px 0;
+}
+
 #container {
   width: 80%;
   margin: 0 auto;

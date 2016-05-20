@@ -161,6 +161,9 @@
    */
 
   function reset () {
+    var wrapper = document.querySelector('#user-list');
+
+    wrapper.innerHTML = "Resetting, please wait ...";
     fetched = false;
     fetch();
   }
