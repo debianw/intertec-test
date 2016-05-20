@@ -40,6 +40,7 @@
      */
 
     this.fetch = function fetch() {
+      var self = this;
 
       requestAjax({
         url: "http://jsonplaceholder.typicode.com/users",
@@ -49,11 +50,41 @@
 
         users = data || [];
 
+        _requestPosts.call(self);
+
         // notify observers of the change
         observer.notify( users );
       });
 
     };
+
+    /**
+     * @private
+     */
+
+    function _requestPosts () {
+      var self = this;
+
+      function filterPostByUser (data, userId) {
+        return data.filter(function (post) {
+          return post.userId === userId;
+        });
+      }
+
+      requestAjax({
+        url: "http://jsonplaceholder.typicode.com/posts",
+        method: 'get'
+      }, function (err, data) {
+        if (err) return console.log("Error requesting posts");
+
+        users.forEach(function (user) {
+          user.posts = filterPostByUser(data, user.id);
+        });
+
+        // notify observers of the change
+        observer.notify( users );
+      });
+    }
 
     /**
      *

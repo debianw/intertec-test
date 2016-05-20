@@ -36,7 +36,7 @@
     console.log('rendering users ==> ', users);
     users.forEach(function (user) {
       var el = document.createElement('li');
-      el.innerHTML = "<span>"+ user.name + " - ( 5 posts)" +"</span> <a href=\"#/user/delete/"+user.id+"\" data-action>Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action>Details</a>";
+      el.innerHTML = "<span>"+ user.name + " - ( "+ ((user.posts && user.posts.length) || 0) +" posts)" +"</span> <a href=\"#/user/delete/"+user.id+"\" data-action>Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action>Details</a>";
 
       wrapper.appendChild(el);
     });
