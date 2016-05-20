@@ -31,14 +31,14 @@
 
     if (!wrapper) return;
 
-    wrapper.innerHTML = "";
-
+    var html = "";
     users.forEach(function (user) {
-      var el = document.createElement('li');
-      el.innerHTML = "<span class='name'>"+ user.name + " - ( "+ ((user.posts && user.posts.length) || 0) +" posts)" +"</span> <div class=\"controls\"><a href=\"#/user/delete/"+user.id+"\" data-action class=\"button warn\">Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action class=\"button\">Details</a></div>";
-
-      wrapper.appendChild(el);
+      html += "<li> <span class='name'>"+ user.name + " - ( "+ ((user.posts && user.posts.length) || 0) +" posts)" +"</span> <div class=\"controls\"><a href=\"#/user/delete/"+user.id+"\" data-action class=\"button warn\">Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action class=\"button\">Details</a></div> </li>";
     });
+
+    html += "<div class='total'> Total Users: "+users.length+"</div>";
+
+    wrapper.innerHTML = html;
   }
 
   /**
@@ -57,7 +57,7 @@
     wrapper.innerHTML = "";
 
     var el = document.createElement('div');
-    var html = "<div class='name'> "+ user.name + " ("+ user.username +")" +" </div>";
+    var html = "<div class='name'> "+ user.name + (user.username ? " ("+ user.username +")" : "") +" </div>";
     var posts = user.posts;
 
     if (posts) {

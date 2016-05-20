@@ -81,3 +81,8 @@ ul {
     padding-bottom: 15px;
     border-bottom: 1px solid #ebebeb;
   }
+
+  #user-list .total {
+    text-align: center;
+    font-weight: bold;
+  }
