@@ -35,7 +35,7 @@
 
     users.forEach(function (user) {
       var el = document.createElement('li');
-      el.innerHTML = "<span>"+ user.name + " - ( "+ ((user.posts && user.posts.length) || 0) +" posts)" +"</span> <a href=\"#/user/delete/"+user.id+"\" data-action>Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action>Details</a>";
+      el.innerHTML = "<span class='name'>"+ user.name + " - ( "+ ((user.posts && user.posts.length) || 0) +" posts)" +"</span> <div class=\"controls\"><a href=\"#/user/delete/"+user.id+"\" data-action class=\"button warn\">Delete</a> <a href=\"#/user/details/"+user.id+"\" data-action class=\"button\">Details</a></div>";
 
       wrapper.appendChild(el);
     });
